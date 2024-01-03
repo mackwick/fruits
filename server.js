@@ -34,18 +34,25 @@ const fruitSchema = new Schema({
 //Model - object for interacting with the db
 const Fruit = model("Fruit", fruitSchema)
 
+//********EXPRESS APP OBJECT
+const app = express()
+
 
 //********MIDDLEWARE
-
+app.use(morgan("dev"))
+app.use(methodOverride("_method"))
+app.use(express.urlencoded({extended: true}))
+app.use(express.static("public"))
 
 
 //********ROUTES
-
+app.get("/", (req, res) => {
+    res.send("your server is running ... better go catch it")
+})
 
 
 //********SERVER LISTENER
-const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 1313
 app.listen(PORT, () => {
-    console.log(`I'm listening on ${PORT}`)
+    console.log(`I hear ya on port ${PORT}`)
 })
