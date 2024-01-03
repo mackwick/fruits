@@ -37,7 +37,6 @@ const Fruit = model("Fruit", fruitSchema)
 //********EXPRESS APP OBJECT
 const app = express()
 
-
 //********MIDDLEWARE
 app.use(morgan("dev"))
 app.use(methodOverride("_method"))
@@ -46,9 +45,47 @@ app.use(express.static("public"))
 
 
 //********ROUTES
+//Root
 app.get("/", (req, res) => {
     res.send("your server is running ... better go catch it")
 })
+
+//Seed route
+app.get("/fruits/seed", async (req, res) => {
+    try {
+        const startFruits = [
+        { name: "Orange", color: "orange", readyToEat: false },
+        { name: "Grape", color: "purple", readyToEat: false },
+        { name: "Banana", color: "orange", readyToEat: false },
+        { name: "Strawberry", color: "red", readyToEat: false },
+        { name: "Coconut", color: "brown", readyToEat: false },
+        ]
+
+        //reset from scratch
+        await Fruit.deleteMany({})
+
+        //seed starter fruits
+        const fruits = await Fruit.create(startFruits)
+        
+        //send fruits as response
+        res.json(fruits)
+    } catch(error){
+        console.log(error)
+        res.send("there was an error, read logs for details")
+    } 
+})
+
+//Index
+app.get("/fruits", async (req, res) => {
+    try{
+        const fruits = await Fruit.find({})
+        res.render("fruits/index.ejs", {fruits})
+    } catch(error){
+        console.log("------------", error.message)
+        res.status(400).send("error, read logs for details")
+    }
+})
+
 
 
 //********SERVER LISTENER
