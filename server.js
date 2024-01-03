@@ -75,7 +75,7 @@ app.get("/fruits/seed", async (req, res) => {
     } 
 })
 
-//Index
+//Index route
 app.get("/fruits", async (req, res) => {
     try{
         const fruits = await Fruit.find({})
@@ -86,6 +86,21 @@ app.get("/fruits", async (req, res) => {
     }
 })
 
+
+
+
+//Show route
+app.get("/fruits/:id", async (req, res) => {
+    try{
+        const id = req.params.id
+        const fruit = await Fruit.findById(id)
+        //render template
+        res.render("fruits/show.ejs", {fruit})
+    }catch(error) {
+        console.log("------------", error.message)
+        res.status(400).send("error, read logs for details")
+    }
+})
 
 
 //********SERVER LISTENER
