@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("../partials/head.ejs") %>
+<body> 
+    <header>
+        <h1>The Fruits App</h1>
+        <a href="/fruits"><button>Back to Main</button></a>
+    </header>
+    <main>
+        <div>
+            <form action="/fruits/<%= fruit._id %>?_method=PUT" method="post">
+                <fieldset>
+                    <legend>Edit <%= fruit.name %></legend>
+                    <label>Name: <input type="text" name="name" value="<%= fruit.name %>"></label>
+                    <label>Color: <input type="text" name="color" value="<%= fruit.color %>"></label>
+                    <label>Ready to Eat: <input type="checkbox" name="readyToEat" <% fruit.readyToEat ? "checked" : "" %>></label>
+                </fieldset>
+                <button>Update Fruit</button>
+            </form>
+        </div>
+    </main>
+   
+</body>
+</html>

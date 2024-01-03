@@ -91,6 +91,33 @@ app.get("/fruits/new", (req, res) => {
     res.render("fruits/new.ejs")
 })
 
+//Destroy route
+app.delete("/fruits/:id", async (req, res) => {
+    try{
+        const id = req.params.id
+        await Fruit.findByIdAndDelete(id)
+        res.redirect("/fruits")
+    } catch(error) {
+        console.log("------------", error.message)
+        res.status(400).send("error, read logs for details")
+    }
+})
+
+//Update route
+app.put("/fruits/:id", async (req, res) =>{
+    try{
+        const id = req.params.id
+        //update ready to eat
+        req.body.readyToEat = req.body.readyToEat === "on" ? true : false
+        //update the fruit
+        await Fruit.findByIdAndUpdate(id, req.body)
+        res.redirect(`/fruits/${id}`)
+    }catch(error) {
+        console.log("------------", error.message)
+        res.status(400).send("error, read logs for details")
+    }
+})
+
 //Create route
 app.post("/fruits", async (req, res) => {
     try{
@@ -101,6 +128,18 @@ app.post("/fruits", async (req, res) => {
         //redirect to main 
         res.redirect("/fruits")
     }catch(error) {
+        console.log("------------", error.message)
+        res.status(400).send("error, read logs for details")
+    }
+})
+
+//Edit route
+app.get("/fruits/:id/edit", async (req, res) => {
+    try{
+        const id = req.params.id
+        const fruit = await Fruit.findById(id)
+        await res.render("fruits/edit.ejs", {fruit})
+    } catch(error) {
         console.log("------------", error.message)
         res.status(400).send("error, read logs for details")
     }
