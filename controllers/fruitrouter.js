@@ -6,30 +6,6 @@ const Fruit = require("../models/Fruit")
 const router = express.Router()
 
 //ROUTES
-//Seed route
-router.get("/seed", async (req, res) => {
-    try {
-        const startFruits = [
-        { name: "Orange", color: "orange", readyToEat: false },
-        { name: "Grape", color: "purple", readyToEat: false },
-        { name: "Banana", color: "orange", readyToEat: false },
-        { name: "Strawberry", color: "red", readyToEat: false },
-        { name: "Coconut", color: "brown", readyToEat: false },
-        ]
-
-        //reset from scratch
-        await Fruit.deleteMany({})
-
-        //seed starter fruits
-        const fruits = await Fruit.create(startFruits)
-        
-        //send fruits as response
-        res.json(fruits)
-    } catch(error){
-        console.log(error)
-        res.send("there was an error, read logs for details")
-    } 
-})
 
 //Index route
 router.get("/", async (req, res) => {

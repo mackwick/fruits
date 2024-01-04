@@ -4,6 +4,7 @@ const express = require("express") //web framework
 const morgan = require("morgan") //logger
 const methodOverride = require("method-override") //overriding forms
 const fruitController = require("./controllers/fruitrouter.js")
+const userController = require("./controllers/userrouter.js")
 
 //********EXPRESS APP OBJECT
 const app = express()
@@ -14,6 +15,7 @@ app.use(methodOverride("_method"))
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.use("/fruits", fruitController) //anytime a url request starts with /fruits, send it to the fruitController
+app.use("/user", userController)
 
 //********ROUTES
 //Root
