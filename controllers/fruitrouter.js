@@ -5,6 +5,19 @@ const Fruit = require("../models/Fruit")
 //CREATE ROUTER
 const router = express.Router()
 
+//MIDDLEWARE
+router.use((req, res, next) => {
+    console.table(req.session);
+  
+    if (req.session.loggedIn) {
+      next();
+    } else {
+      res.redirect("/user/login");
+    }
+  
+    
+  });
+
 //ROUTES
 
 //Index route
