@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include("../partials/head.ejs") %>
-<body>
+  <%- include("../partials/head.ejs") %>
+  <body>
     <%- include("../partials/header.ejs") %>
 
     <main>
-        <div>
-            <article>
-                <h2><%= fruit.name %> - <%= fruit.readyToEat ? "Ripe" : "Not Ripe" %></h2>
-                <h3><%= fruit.color %></h3>
-                <a href="/fruits/<%= fruit._id %>/edit"><button>Edit</button></a>
-                <form action="/fruits/<%=fruit._id %>?_method=DELETE" method="post">
-                    <input type="submit" value="Delete">
-                </form>
-                <a href="/fruits"><button>Back to Main</button></a>
-            </article>
-        </div>
+      <div>
+        <article x-data="{showTools: false}">
+          <h2>
+            <%= fruit.name %> - <%= fruit.readyToEat ? "Ripe" : "Not Ripe" %>
+          </h2>
+          <h3><%= fruit.color %></h3>
+          <button x-on:click="showTools = !showTools">Show Options</button>
+          <div x-show="showTools">
+            <a href="/fruits/<%= fruit._id %>/edit"><button>Edit</button></a>
+            <form action="/fruits/<%=fruit._id %>?_method=DELETE" method="post">
+              <input type="submit" value="Delete" />
+            </form>
+            <a href="/fruits"><button>Back to Main</button></a>
+          </div>
+        </article>
+      </div>
     </main>
-
-</body>
+  </body>
 </html>

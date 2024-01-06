@@ -1,41 +1,22 @@
 //*********DEPENDENCIES
-require("dotenv").config() //loads .env variables
-const express = require("express") //web framework
-const morgan = require("morgan") //logger
-const methodOverride = require("method-override") //overriding forms
-const fruitController = require("./controllers/fruitrouter.js")
-const userController = require("./controllers/userrouter.js")
-const session = require("express-session")
-const MongoStore = require("connect-mongo")
+require("dotenv").config(); //loads .env variables
+const express = require("express"); //web framework
+const registerGlobalMiddleware = require("./utils/middleware.js");
 
 //********EXPRESS APP OBJECT
-const app = express()
+const app = express();
 
-//********NORMAL MIDDLEWARE
-app.use(morgan("dev"))
-app.use(methodOverride("_method"))
-app.use(express.urlencoded({extended: true}))
-app.use(express.static("public"))
-app.use(session({
-    secret: process.env.SECRET,
-    store: MongoStore.create({mongoUrl: process.env.DATABASE_URL}),
-    saveUninitialized: true,
-    resave: false
-}))
-
-
-//*********ROUTERS */
-app.use("/fruits", fruitController) //anytime a url request starts with /fruits, send it to the fruitController
-app.use("/user", userController)
+//Register middleware
+registerGlobalMiddleware(app);
 
 //********ROUTES
 //Root
 app.get("/", (req, res) => {
-    res.send("your server is running ... better go catch it")
-})
+  res.send("your server is running ... better go catch it");
+});
 
 //********SERVER LISTENER
-const PORT = process.env.PORT || 1313
+const PORT = process.env.PORT || 1313;
 app.listen(PORT, () => {
-    console.log(`I hear ya on port ${PORT}`)
-})
+  console.log(`I hear ya on port ${PORT}`);
+});
